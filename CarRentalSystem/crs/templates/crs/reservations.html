@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel = "stylesheet" type="text/css" href="{% static 'crs/css/reservations.css' %}">
+    <title>Reservations - Car Rental System</title>
+</head>
+<body>
+    <header>
+        <h1>Car Rental System</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Cars</a></li>
+            <li><a href="#">Reservations</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+    <section class="reservation-form">
+        <h2>Make a Reservation</h2>
+        <form action="#" method="post">
+            <label for="carModel">Select Car Model:</label>
+            <select name="carModel" id="carModel">
+                <option value="model1">Car Model 1</option>
+                <option value="model2">Car Model 2</option>
+                <!-- Add more car models here -->
+            </select>
+            <label for="pickupDate">Pickup Date:</label>
+            <input type="date" name="pickupDate" id="pickupDate">
+            <label for="returnDate">Return Date:</label>
+            <input type="date" name="returnDate" id="returnDate">
+            <button type="submit" class="btn">Submit Reservation</button>
+        </form>
+    </section>
+    <footer>
+        <p>&copy; 2023 Car Rental System</p>
+    </footer>
+</body>
+</html>

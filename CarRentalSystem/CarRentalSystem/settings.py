@@ -83,7 +83,7 @@ DATABASES = {
 
      'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'car_rental_system',          # Name of your database
+        'NAME': 'carrentalsystem',          # Name of your database
         'USER': 'root',        # Your MySQL username
         'PASSWORD': '',    # Your MySQL password
         'HOST': 'localhost',            # Host where the MySQL server is running

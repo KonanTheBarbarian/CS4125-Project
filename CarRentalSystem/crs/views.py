@@ -34,5 +34,9 @@ def register(request):
     return render(request, 'crs/register.html', {'form': form})
 
 def dashboard(request):
-    # Your dashboard view logic goes here
+    # Your dashboard view logic goes here if you change home to reservations it will show
     return render(request, 'crs/home.html') 
+
+def reservations(request):
+    # Your reservations view logic goes here
+    return render(request, 'crs/reservations.html')  # Assuming 'reservations.html' is your reservations page template
