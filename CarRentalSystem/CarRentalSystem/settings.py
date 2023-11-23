@@ -83,14 +83,15 @@ DATABASES = {
 
      'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'carrentalsystem',          # Name of your database
+        'NAME': 'car_rental_system',          # Name of your database
         'USER': 'root',        # Your MySQL username
         'PASSWORD': '',    # Your MySQL password
         'HOST': 'localhost',            # Host where the MySQL server is running
         'PORT': '3306',                 # MySQL default port is 3306
         'OPTIONS': {
-            'init_command': "SET collation_connection = utf8mb4_unicode_ci",
-            'charset': 'utf8mb4',
+            'charset': 'utf8',
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+           
         },
      }
 

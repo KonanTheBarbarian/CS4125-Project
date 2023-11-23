@@ -49,6 +49,7 @@ form {
     border-radius: 5px;
     text-align: left;
     display: inline-block;
+    width: 30%;
 }
 
 label {

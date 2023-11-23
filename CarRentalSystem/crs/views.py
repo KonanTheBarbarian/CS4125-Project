@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
+from django.views.generic import View
 from .forms import LoginForm, RegistrationForm
-from .models import User
+from .models.reservation import Reservation, CarModel
+from .models.user import User
+from .forms import ReservationForm  # Import your Reservat
 
 def login(request):
     if request.method == 'POST':
@@ -37,6 +40,42 @@ def dashboard(request):
     # Your dashboard view logic goes here if you change home to reservations it will show
     return render(request, 'crs/home.html') 
 
-def reservations(request):
-    # Your reservations view logic goes here
-    return render(request, 'crs/reservations.html')  # Assuming 'reservations.html' is your reservations page template
+class ReservationView(View):
+    template_name = 'crs/reservations.html'
+    model = Reservation
+    form_class = ReservationForm
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        context = {
+            'form': form,
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+        context = {
+            'form': form,
+        }
+        return render(request, self.template_name, context)
+
+
+def load_car_model(request):
+    pickup_date = request.GET.get('pickup_date')
+    return_date = request.GET.get('return_date')
+    location = request.GET.get('location')
+
+    print(pickup_date, return_date, location)
+
+    car_models = CarModel.objects.filter(
+        available_from_date__lte=pickup_date,
+        available_to_date__gte=return_date
+    )
+    print(car_models)
+    context = {
+        'car_models': car_models,
+    }
+    return render(request, 'load_model.html', context)
