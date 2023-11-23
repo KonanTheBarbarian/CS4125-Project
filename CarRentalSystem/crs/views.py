@@ -40,3 +40,7 @@ def dashboard(request):
 def reservations(request):
     # Your reservations view logic goes here
     return render(request, 'crs/reservations.html')  # Assuming 'reservations.html' is your reservations page template
+
+def home(request):
+    # Your reservations view logic goes here
+    return render(request, 'crs/home.html')  # Assuming 'reservations.html' is your reservations page template

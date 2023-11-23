@@ -13,9 +13,9 @@
     </header>
     <nav>
         <ul>
-            <li><a href="dashboard">Home</a></li>
+            <li><a href="{% url 'home' %}">Home</a></li>
             <li><a href="#">Cars</a></li>
-            <li><a href="crs/reservations.html">Reservations</a></li>
+            <li><a href="{% url 'reservations' %}">Reservations</a></li>
             <li><a href="#">About Us</a></li>
             <li><a href="#">Contact</a></li>
         </ul>
@@ -42,5 +42,7 @@
     <footer>
         <p>&copy; 2023 Car Rental System</p>
     </footer>
+
+<script src="{% static 'crs/js/observer.js' %}"></script>
 </body>
 </html>
