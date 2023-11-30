@@ -89,8 +89,9 @@ DATABASES = {
         'HOST': 'localhost',            # Host where the MySQL server is running
         'PORT': '3306',                 # MySQL default port is 3306
         'OPTIONS': {
-            'init_command': "SET collation_connection = utf8mb4_unicode_ci",
-            'charset': 'utf8mb4',
+            'charset': 'utf8',
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+           
         },
      }
 
@@ -137,3 +138,18 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# for observer 
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'your-email@your-email-provider.com'
+EMAIL_HOST_PASSWORD = 'your-email-password'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+from decouple import config
+SECRET_KEY = config('SECRET_KEY')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')

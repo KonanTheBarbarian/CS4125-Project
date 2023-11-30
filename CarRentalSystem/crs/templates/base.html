@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel = "stylesheet" type="text/css" href="{% static 'crs/css/home.css' %}">
+        <title>{% block title %}{% endblock title %} | Car Rental System</title>
+        {% block extra_css %}{% endblock extra_css %}
+    </head>
+    <body>
+        <header>
+            <h1>Welcome to Car Rental System</h1>
+        </header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'dashboard' %}">Home</a></li>
+                <li><a href="#">Cars</a></li>
+                <li><a href="{% url 'reservations' %}">Reservations</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+        {% block content %}
+        {% endblock content %}
+        <footer>
+            <p>&copy; 2023 Car Rental System</p>
+        </footer>
+        {% block script %}
+        {% endblock script %}
+    </body>
+</html>

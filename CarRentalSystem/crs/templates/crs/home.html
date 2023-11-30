@@ -1,10 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel = "stylesheet" type="text/css" href="{% static 'crs/css/home.css' %}">
+    <title>Car Rental System</title>
 </head>
 <body>
-    <h1>Welcome to the Home Page</h1>
-    
+    <header>
+        <h1></h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="/dashboard/">Home</a></li>
+            <li><a href="#">Cars</a></li>
+            <li><a href="/reservations/">Reservations</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+    <section class="main-content">
+        <h2>Explore Our Fleet</h2>
+        <p>Choose from a wide selection of cars for your next adventure.</p>
+        <a href="#" class="btn">View Cars</a>
+    </section>
+    <section class="featured-cars">
+        <h2>Featured Cars</h2>
+        <div class="car">
+            <img src="https://www.topgear.com/sites/default/files/2022/07/20.jpg?w=645&h=363" alt="Car 1">
+            <h3>Car Model 1</h3>
+            <p>Starting at $50/day</p>
+        </div>
+        <div class="car">
+            <img src="https://www.topgear.com/sites/default/files/2022/07/19.jpg?w=645&h=363" alt="Car 2">
+            <h3>Car Model 2</h3>
+            <p>Starting at $60/day</p>
+        </div>
+        <!-- Add more featured cars here -->
+    </section>
+    <footer>
+        <p>&copy; 2023 Car Rental System</p>
+    </footer>
 </body>
 </html>

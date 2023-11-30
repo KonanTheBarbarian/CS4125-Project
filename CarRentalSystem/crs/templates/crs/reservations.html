@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Reservations{% endblock title %}
+
+{% block extra_css %}
+<link rel = "stylesheet" type="text/css" href="{% static 'crs/css/reservations.css' %}">
+<style>
+    #id_is_under_25 {
+        width: auto !important;
+    }
+    #id_is_child_seat {
+        width: auto !important;
+    }
+    #yes {
+        width: auto !important;
+    }
+    #no {
+        width: auto !important;
+    }
+</style>
+{% endblock extra_css %}
+
+{% block content %}
+<section class="reservation-form">
+    <h2>Make a Reservation</h2>
+    <form action="#" method="post" id="reservation_form" data-model-url="{% url 'load_car_models' %}">
+        {% csrf_token %}
+        <label for="id_name">Legal Name:</label>
+        {{ form.name }}
+        <label for="id_location">Address:</label>
+        {{ form.location }}
+        <label for="id_year">Years no claims:</label>
+        {{ form.year }}
+        <label for="id_penalty_point">Penalty Point:</label>
+        <input type="radio" value="yes" name="group1" id="yes"> Yes
+        <input type="radio" value="no" name="group1" id="no"> No
+        {{ form.penalty_point }}
+        <label for="id_pickup_date">Pickup Date:</label>
+        {{ form.pickup_date }}
+        <label for="id_return_date">Return Date:</label>
+        {{ form.return_date }}
+        <label for="id_model">Select Car Model:</label>
+        {{ form.model }}
+        <label for="id_is_under_25">Is Under 25?:</label>
+        {{ form.is_under_25 }}
+        <label for="id_is_child_seat">Is Child Seat Required?:</label>
+        {{ form.is_child_seat }}
+        <button type="submit" class="btn btn">Submit Reservation</button>
+    </form>
+</section>
+{% endblock content %}
+
+
+{% block script %}
+<script src="{% static 'jquery.min.js' %}"></script>
+<script>
+    $("#yes").click(function() {
+        console.log("Yes");
+        var points = $("#id_penalty_point").css({"display": "block"});
+    });
+
+    $("#no").click(function() {
+        var points = $("#id_penalty_point").css({"display": "none"});
+    });
+
+    $("#id_pickup_date").change(function () {
+        var url = $("#reservation_form").attr("data-model-url");
+        var id_pickup_date = $("#id_pickup_date").val();
+        var id_return_date = $("#id_return_date").val();
+        var id_location= $("#id_location").val();
+        console.log(id_pickup_date, id_return_date, id_location);
+        console.log(url);
+        $.ajax({
+            url: url,
+            data: {
+                'pickup_date': id_pickup_date,
+                'return_date': id_return_date,
+                'location': id_location,
+            },
+            success: function (data) {
+                $("#id_model").html(data);
+            }
+        });
+    });
+
+
+    $("#id_return_date").change(function () {
+        var url = $("#reservation_form").attr("data-model-url");
+        var id_pickup_date = $("#id_pickup_date").val();
+        var id_return_date = $("#id_return_date").val();
+        var id_location= $("#id_location").val();
+        console.log(id_pickup_date, id_return_date, id_location);
+        console.log(url);
+        $.ajax({
+            url: url,
+            data: {
+                'pickup_date': id_pickup_date,
+                'return_date': id_return_date,
+                'location': id_location,
+            },
+            success: function (data) {
+                $("#id_model").html(data);
+            }
+        });
+    });
+</script>
+{% endblock script %}
