@@ -1,10 +1,17 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from crs.models.reservation import Reservation
+from django.contrib.auth.models import User
+
 from .models.vehicle import Vehicle
 
 class LoginForm(forms.Form):
-    username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
+    username = forms.CharField(max_length=100, required=True)
+    password = forms.CharField(widget=forms.PasswordInput, required=True)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        return cleaned_data
 
 class RegistrationForm(forms.Form):
     username = forms.CharField(max_length=30)
@@ -22,7 +29,21 @@ class RegistrationForm(forms.Form):
             raise forms.ValidationError("Passwords do not match")
 
         return cleaned_data
+    
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if User.objects.filter(username=username).exists():
+            raise ValidationError("A user with this username already exists.")
+        return username
 
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.filter(email=email).exists():
+            raise ValidationError("This email is already in use.")
+        return email
+    
+
+    
 class ReservationForm(forms.ModelForm):
 
     # def __init__(self, *args, **kwargs):

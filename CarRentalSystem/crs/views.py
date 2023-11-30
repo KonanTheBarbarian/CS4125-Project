@@ -4,6 +4,11 @@ from .forms import LoginForm, RegistrationForm
 from .models.reservation import Reservation, CarModel
 from .models.user import User
 from .forms import ReservationForm  # Import your Reservat
+from django.contrib.auth import authenticate, login
+
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import check_password
+
 
 #Imports for Inventory System
 from django.shortcuts import render, redirect
@@ -14,18 +19,39 @@ from django.contrib import messages
 
 from django.contrib.auth.decorators import user_passes_test
 
-def login(request):
+def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
             # Process login data
-            # Example: authenticate user
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            User.objects.get(username=username, password=password)
-            return redirect('dashboard') 
+            print("Password before user authenticate",password)
+            # Use Django's authenticate function to check credentials
+            user = authenticate(request, username=username, password=password)
+            print(f"Authentication attempt for user: {username}")
+            print(f"User object after authentication: {user}")
+           #  print(user.password)
+            # Check if user exists
+            try:
+                user = User.objects.get(username=username)
+            except User.DoesNotExist:
+                return render(request, 'login.html', {'form': form, 'error_message': 'Invalid login credentials'})
+
+            if user is not None and check_password(password, user.password):
+                print(f"User {username} exists. Logging in...")
+
+                # Log in the user
+                login(request, user)
+                return redirect('dashboard')  # Redirect to your dashboard or desired page
+            else:
+                print(f"fail to login...")
+                # Invalid login
+                return render(request, 'crs/login.html', {'form': form, 'error_message': 'Invalid login credentials'})
+
     else:
         form = LoginForm()
+
     return render(request, 'crs/login.html', {'form': form})
 
 def register(request):
@@ -36,15 +62,35 @@ def register(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             date_of_birth = form.cleaned_data['date_of_birth']
-            user, created = User.objects.get_or_create(username=username, email=email)
-            if created:
-                user.set_password(password)
+
+            # Use make_password to hash the password
+            hashed_password = make_password(password)
+
+            # Create a new user instance with the hashed password
+            user, created = User.objects.get_or_create(
+                username=username,
+                email=email,
+                defaults={
+                    'password': hashed_password,
+                    'date_of_birth': date_of_birth,
+                    'accountType': 'normal',  # or whatever default value you want
+                    'userID': 'some_unique_value',  # or generate a unique user ID
+                }
+            )
+
+            if not created:
+                # If the user already exists, update the fields except for the password
+                user.date_of_birth = date_of_birth
+                user.accountType = 'normal'  # or whatever default value you want
+                user.userID = 'some_unique_value'  # or generate a unique user ID
                 user.save()
 
             # Redirect to login page after successful registration
             return redirect('login')
+
     else:
         form = RegistrationForm()
+
     return render(request, 'crs/register.html', {'form': form})
 
 def dashboard(request):
@@ -115,9 +161,7 @@ def add_vehicle(request):
         vehicle_instance.save()
 
         messages.success(request, 'Vehicle added successfully')
-
-        # You may want to add additional error handling and validation here
-
-        return redirect('inventory')  # Assuming you have a URL named 'vehicle_list'
+        
+        return redirect('inventory')  
 
     return render(request, 'crs/inventory.html')

@@ -1,15 +1,22 @@
+{% extends 'base.html' %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    {% block title %}Register{% endblock %}
     {% load static %}
+ 
+    {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'crs/css/register.css' %}">
+    {% endblock %}
 </head>
+
+{% block content %}
 <body>
     <header>
-        <h1>Car Rental System</h1>
+        <h1>Create Your Account</h1>
     </header>
     <div class="register-container">
         <h2>Register</h2>
@@ -21,3 +28,6 @@
     </div>
 </body>
 </html>
+
+
+{% endblock content %}
