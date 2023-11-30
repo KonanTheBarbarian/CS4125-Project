@@ -1,14 +1,27 @@
 from django import forms
 from crs.models.reservation import Reservation
+from .models.vehicle import Vehicle
+
 class LoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
 
 class RegistrationForm(forms.Form):
-    username = forms.CharField()
+    username = forms.CharField(max_length=30)
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
+    password_confirmation = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
+    date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label="Date of Birth")
 
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        password_confirmation = cleaned_data.get("password_confirmation")
+
+        if password != password_confirmation:
+            raise forms.ValidationError("Passwords do not match")
+
+        return cleaned_data
 
 class ReservationForm(forms.ModelForm):
 
@@ -35,3 +48,17 @@ class ReservationForm(forms.ModelForm):
                 'style': 'display: none',
             }),
         }
+
+
+#class VehicleForm(forms.ModelForm):
+ #   class Meta:
+  #      model = Vehicle
+   #     fields = ['make', 'model', 'year', 'color', 'price']
+
+    #    widgets = {
+     #       'make': forms.TextInput(attrs={'class': 'form-control'}),
+      #      'model': forms.TextInput(attrs={'class': 'form-control'}),
+       #     'year': forms.NumberInput(attrs={'class': 'form-control'}),
+        #    'color': forms.TextInput(attrs={'class': 'form-control'}),
+         #   'price': forms.NumberInput(attrs={'class': 'form-control'}),
+        #}

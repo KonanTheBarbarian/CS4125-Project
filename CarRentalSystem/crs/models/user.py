@@ -8,6 +8,7 @@ class User(models.Model):
     email = models.EmailField(unique=True, max_length=191)
     password = models.CharField(max_length=191)
     accountType = models.CharField(max_length=191)
+    date_of_birth = models.DateField(default="2001-08-11")
     userID = models.CharField(max_length=191)
 
     class Meta:

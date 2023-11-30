@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Add Vehicle{% endblock title %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'crs/css/inventory.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+    <main>
+        <div class="form-container">
+            <h2>Add Vehicle</h2>
+            <form method="post" action="{% url 'inventory' %}">
+                {% csrf_token %}
+                <label for="model_name">Model Name:</label>
+                <input type="text" name="model_name" class="form-input" required><br>
+                <label for="year">Year:</label>
+                <input type="text" name="year" class="form-input" required><br>
+                <label for="price">Price:</label>
+                <input type="text" name="price" class="form-input" required><br>
+                <label for="available_from_date">Available From:</label>
+                <input type="date" name="available_from_date" class="form-input"><br>
+                <label for="available_to_date">Available To:</label>
+                <input type="date" name="available_to_date" class="form-input"><br>
+                <label for="location">Location:</label>
+                <select name="location" class="form-input">
+                    <option value="Dublin">Location 1</option>
+                    <option value="Limerick">Location 2</option>
+                    <option value="Cork">Location 2</option>
+                </select><br>
+                <button type="submit" class="btn">Add Vehicle</button>
+            </form>
+            
+            </div>
+
+            <div id="notifications-container" class="notifications-container">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="notification">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <script>
+                    //JavaScript code to hide notifications after 5 seconds
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var notifications = document.querySelectorAll('.notification');
+                        notifications.forEach(function (notification) {
+                            setTimeout(function () {
+                                notification.style.display = 'none';
+                            }, 5000);  
+                        });
+                    });
+                </script>
+            </div>
+
+    </main>
+
+{% endblock content %}

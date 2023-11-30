@@ -1,18 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'crs/css/register.css' %}">
 </head>
 <body>
+    <header>
+        <h1>Car Rental System</h1>
+    </header>
     <div class="register-container">
-    <h1>Register</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Register">
-    </form>
+        <h2>Register</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Register">
+        </form>
     </div>
 </body>
 </html>
