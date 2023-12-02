@@ -1,12 +1,10 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from crs.models.reservation import Reservation
-from django.contrib.auth.models import User
-
-from .models.vehicle import Vehicle
+from users.models import CustomUser
 
 class LoginForm(forms.Form):
-    username = forms.CharField(max_length=100, required=True)
+    email = forms.EmailField(max_length=100, required=True)
     password = forms.CharField(widget=forms.PasswordInput, required=True)
 
     def clean(self):
@@ -14,7 +12,6 @@ class LoginForm(forms.Form):
         return cleaned_data
 
 class RegistrationForm(forms.Form):
-    username = forms.CharField(max_length=30)
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
     password_confirmation = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
@@ -30,15 +27,9 @@ class RegistrationForm(forms.Form):
 
         return cleaned_data
     
-    def clean_username(self):
-        username = self.cleaned_data['username']
-        if User.objects.filter(username=username).exists():
-            raise ValidationError("A user with this username already exists.")
-        return username
-
     def clean_email(self):
         email = self.cleaned_data['email']
-        if User.objects.filter(email=email).exists():
+        if CustomUser.objects.filter(email=email).exists():
             raise ValidationError("This email is already in use.")
         return email
     

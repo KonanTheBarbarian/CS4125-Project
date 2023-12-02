@@ -42,12 +42,48 @@ main {
     height: 100vh;
 }
 
+.content-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+
 .form-container {
+    flex: 0 0 78%; 
+    box-sizing: border-box;
     background-color: #fff;
     padding: 2em;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2em; 
 }
+
+.sync-container {
+    flex: 0 0 20%; 
+    box-sizing: border-box;
+    background-color: #fff;
+    padding: 2em;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2em; 
+}
+
+.table-container {
+    background-color: #fff;
+    padding: 2em;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-right: 2em;
+    height: 74%; 
+}
+
+.vehicle-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1em; 
+}
+
 
 .form-input {
     width: 100%;
@@ -69,9 +105,9 @@ main {
 
 .notifications-container {
     position: absolute;
-    bottom: 10px; /* Adjust the distance from the bottom */
-    right: 10px; /* Adjust the distance from the right */
-    max-width: 300px; /* Set a maximum width if needed */
+    bottom: 10px;
+    right: 10px; 
+    max-width: 300px;
 }
 
 
@@ -81,4 +117,17 @@ main {
     padding: 10px;
     margin-bottom: 5px;
     border: 1px solid #ccc;
+}
+
+
+
+.vehicle-table th,
+.vehicle-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+.vehicle-table th {
+    background-color: #f0f0f0;
 }

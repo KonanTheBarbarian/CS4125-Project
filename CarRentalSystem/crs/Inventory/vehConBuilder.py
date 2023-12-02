@@ -38,15 +38,3 @@ class ConcreteVehicleBuilder(VehicleBuilder):
             'available_to_date': self.vehicle.available_to_date,
             'location': self.vehicle.location,
         }
-
-
-    """
-    def get_result(self):
-        return {
-            'make': self.vehicle.make,
-            'model': self.vehicle.model,
-            'year': self.vehicle.year,
-            'color': self.vehicle.color,
-            'price': self.vehicle.price,
-        }
-    """

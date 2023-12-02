@@ -2,13 +2,12 @@ from django.shortcuts import render, redirect
 from django.views.generic import View
 from .forms import LoginForm, RegistrationForm
 from .models.reservation import Reservation, CarModel
-from .models.user import User
-from .forms import ReservationForm  # Import your Reservat
-from django.contrib.auth import authenticate, login
+#from .models.user import User
+from .forms import ReservationForm 
+from django.contrib.auth import  login
 
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.hashers import check_password
-
 
 #Imports for Inventory System
 from django.shortcuts import render, redirect
@@ -17,37 +16,44 @@ from .Inventory.vehConBuilder import ConcreteVehicleBuilder
 from .Inventory.vehDirector import VehicleDirector
 from django.contrib import messages
 
+#user imports new
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth import logout
+from users.models import CustomUser
+
+#import for sync functionality 
+from .management.commands import copy_data  # Import the Command class
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
             # Process login data
-            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-            print("Password before user authenticate",password)
-            # Use Django's authenticate function to check credentials
-            user = authenticate(request, username=username, password=password)
-            print(f"Authentication attempt for user: {username}")
-            print(f"User object after authentication: {user}")
-           #  print(user.password)
-            # Check if user exists
+            print(f"Attempting login for user: {email}")
+            print(f"Password entered: {password}")
+
             try:
-                user = User.objects.get(username=username)
-            except User.DoesNotExist:
-                return render(request, 'login.html', {'form': form, 'error_message': 'Invalid login credentials'})
+                user_db = CustomUser.objects.get(email=email)
+                print(f"User {email} exists in the database.")
 
-            if user is not None and check_password(password, user.password):
-                print(f"User {username} exists. Logging in...")
+                # Check the password
+                if check_password(password, user_db.password):
+                    # Password is correct, log in the user
+                    login(request, user_db)
+                    print(f"Login successful for user: {email}")
+                    return redirect('crs:dashboard')  
+                else:
+                    print("Incorrect password")
+            except CustomUser.DoesNotExist:
+                print(f"User {email} does not exist in the database.")
 
-                # Log in the user
-                login(request, user)
-                return redirect('dashboard')  # Redirect to your dashboard or desired page
-            else:
-                print(f"fail to login...")
-                # Invalid login
-                return render(request, 'crs/login.html', {'form': form, 'error_message': 'Invalid login credentials'})
+            print("Fail to login...")
+            # Invalid login
+            return render(request, 'crs/login.html', {'form': form, 'error_message': 'Invalid login credentials'})
 
     else:
         form = LoginForm()
@@ -58,7 +64,6 @@ def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data['username']
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             date_of_birth = form.cleaned_data['date_of_birth']
@@ -67,35 +72,45 @@ def register(request):
             hashed_password = make_password(password)
 
             # Create a new user instance with the hashed password
-            user, created = User.objects.get_or_create(
-                username=username,
+            user, created = CustomUser.objects.get_or_create(
                 email=email,
                 defaults={
                     'password': hashed_password,
                     'date_of_birth': date_of_birth,
-                    'accountType': 'normal',  # or whatever default value you want
-                    'userID': 'some_unique_value',  # or generate a unique user ID
+                    'accountType': 'customer',  # or whatever default value you want
                 }
             )
 
             if not created:
                 # If the user already exists, update the fields except for the password
                 user.date_of_birth = date_of_birth
-                user.accountType = 'normal'  # or whatever default value you want
-                user.userID = 'some_unique_value'  # or generate a unique user ID
+                user.accountType = 'customer'  
                 user.save()
 
-            # Redirect to login page after successful registration
-            return redirect('login')
+            # Log in the user after successful registration
+            login(request, user)
+            return redirect('crs:dashboard')  # Redirect to your dashboard or desired page
 
     else:
         form = RegistrationForm()
 
     return render(request, 'crs/register.html', {'form': form})
 
+
+
+
+def logoutUser(request):
+
+    logout(request)
+   
+    return redirect('crs:dashboard')
+
+
+#@login_required
 def dashboard(request):
-    # Your dashboard view logic goes here if you change home to reservations it will show
-    return render(request, 'crs/home.html') 
+   # print(f"Is user authenticated? {request.user.is_authenticated}")
+   # print(f"Template Context: {request.__dict__}")
+    return render(request, 'crs/home.html', {'user': request.user}) 
 
 class ReservationView(View):
     template_name = 'crs/reservations.html'
@@ -113,7 +128,7 @@ class ReservationView(View):
         form = self.form_class(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('dashboard')
+            return redirect('crs:dashboard')
         context = {
             'form': form,
         }
@@ -138,8 +153,18 @@ def load_car_model(request):
     return render(request, 'load_model.html', context)
 
 
-#@user_passes_test(lambda u: u.is_superuser)
+
+def is_staff_user(CustomUser):
+    return CustomUser.is_authenticated and CustomUser.accountType == "staff"
+
+@user_passes_test(is_staff_user)
 def add_vehicle(request):
+
+    vehicles = Vehicle.objects.all()[:10]
+    context = {
+        'vehicles': vehicles,
+    }
+
     if request.method == 'POST':
         model_name = request.POST.get('model_name')
         year = request.POST.get('year')
@@ -162,6 +187,22 @@ def add_vehicle(request):
 
         messages.success(request, 'Vehicle added successfully')
         
-        return redirect('inventory')  
+        return redirect('crs:inventory')  
 
-    return render(request, 'crs/inventory.html')
+    return render(request, 'crs/inventory.html', context)
+
+
+#Function to synchronise the inventory and car_model tables
+class SynchronizeDBView(View):
+    def get(self, request, *args, **kwargs):
+        # Run the synchronization command
+        command = copy_data.Command()
+        command.handle()
+
+        # Redirect to the original page 
+        return HttpResponseRedirect(reverse('crs:inventory'))
+    
+    def post(self, request, *args, **kwargs):
+        command = copy_data.Command()
+        command.handle()
+        return HttpResponseRedirect(reverse('crs:inventory'))

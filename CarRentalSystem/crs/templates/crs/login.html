@@ -1,3 +1,5 @@
+
+
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Login{% endblock %}
@@ -7,12 +9,19 @@
 {% endblock %}
 
 {% block content %}
-    <div class="login-container">
-        <h1>Login</h1>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Login">
-        </form>
+    <div class = "content-container">
+
+        <div class="login-container">
+            <h1>Login</h1>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Login">
+            </form>
+            <p>Don't have an account yet? Click below to create one:</p>
+            <a href="{% url 'crs:register' %}" class="btn">Create Account</a>
+        </div>
     </div>
+
 {% endblock %}
+
