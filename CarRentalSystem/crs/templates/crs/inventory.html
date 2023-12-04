@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Add Vehicle{% endblock title %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'crs/css/inventory.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+    <main>
+
+        <div class="table-container">
+            <h2>Vehicle Inventory</h2>
+            <!-- Display only the first 10 vehicles-->
+            <table class="vehicle-table">
+                <thead>
+                    <tr>
+                        <th>Model Name</th>
+                        <th>Year</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for vehicle in vehicles %}
+                        <tr>
+                            <!-- Display vehicle data in table rows -->
+                            <td>{{ vehicle.model_name }}</td>
+                            <td>{{ vehicle.year }}</td>
+                            <td>{{ vehicle.price }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class = "content-container">
+
+            <div class="form-container">
+                <h2>Add Vehicle</h2>
+                <form method="post" action="{% url 'crs:inventory' %}">
+                    {% csrf_token %}
+                    <label for="model_name">Model Name:</label>
+                    <input type="text" name="model_name" class="form-input" required><br>
+                    <label for="year">Year:</label>
+                    <input type="text" name="year" class="form-input" required><br>
+                    <label for="price">Price:</label>
+                    <input type="text" name="price" class="form-input" required><br>
+                    <label for="available_from_date">Available From:</label>
+                    <input type="date" name="available_from_date" class="form-input"><br>
+                    <label for="available_to_date">Available To:</label>
+                    <input type="date" name="available_to_date" class="form-input"><br>
+                    <label for="location">Location:</label>
+                    <select name="location" class="form-input">
+                        <option value="Dublin">Dublin</option>
+                        <option value="Limerick">Limerick</option>
+                        <option value="Cork">Cork</option>
+                    </select><br>
+                    <button type="submit" class="btn">Add Vehicle</button>
+                </form>
+                
+            </div>
+
+            <div class="sync-container">
+                <form method="post" action="{% url 'crs:synchronize_db' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn">Synchronize DB</button>
+                </form>
+            </div>
+
+        </div>
+
+    <div id="notifications-container" class="notifications-container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="notification">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <script>
+            //JavaScript code to hide notifications after 5 seconds
+            document.addEventListener('DOMContentLoaded', function () {
+                var notifications = document.querySelectorAll('.notification');
+                notifications.forEach(function (notification) {
+                    setTimeout(function () {
+                        notification.style.display = 'none';
+                    }, 5000);  
+                });
+            });
+        </script>
+    </div>
+    </main>
+
+{% endblock content %}

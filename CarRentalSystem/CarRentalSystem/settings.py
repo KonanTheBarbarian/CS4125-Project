@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -38,10 +37,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'debug_toolbar',
     'crs',
+    'users'
 ]
 
+AUTH_USER_MODEL = 'users.CustomUser'
+
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -49,7 +53,18 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # or 'django.contrib.sessions.backends.cached_db'
+SESSION_COOKIE_AGE = 1209600  # Set the session timeout in seconds (2 weeks in this example)
 
 ROOT_URLCONF = 'CarRentalSystem.urls'
 
@@ -83,7 +98,7 @@ DATABASES = {
 
      'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'car_rental_system',          # Name of your database
+        'NAME': 'car_rental_system_b',          # Name of your database
         'USER': 'root',        # Your MySQL username
         'PASSWORD': '',    # Your MySQL password
         'HOST': 'localhost',            # Host where the MySQL server is running
@@ -96,7 +111,6 @@ DATABASES = {
      }
 
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -115,6 +129,20 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
+
+
+
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    'django.contrib.auth.hashers.BCryptPasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+]
+
+
 
 
 # Internationalization

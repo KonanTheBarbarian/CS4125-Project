@@ -1,0 +1,133 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1em;
+}
+
+nav {
+    background-color: #444;
+    color: #fff;
+    padding: 0.5em;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.content-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+
+.form-container {
+    flex: 0 0 78%; 
+    box-sizing: border-box;
+    background-color: #fff;
+    padding: 2em;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2em; 
+}
+
+.sync-container {
+    flex: 0 0 20%; 
+    box-sizing: border-box;
+    background-color: #fff;
+    padding: 2em;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2em; 
+}
+
+.table-container {
+    background-color: #fff;
+    padding: 2em;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-right: 2em;
+    height: 74%; 
+}
+
+.vehicle-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1em; 
+}
+
+
+.form-input {
+    width: 100%;
+    padding: 0.5em;
+    margin-bottom: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.btn {
+    background-color: #333;
+    color: #fff;
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+.notifications-container {
+    position: absolute;
+    bottom: 10px;
+    right: 10px; 
+    max-width: 300px;
+}
+
+
+/* Style for Individual Notification */
+.notification {
+    background-color: #f0f0f0;
+    padding: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+}
+
+
+
+.vehicle-table th,
+.vehicle-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+.vehicle-table th {
+    background-color: #f0f0f0;
+}

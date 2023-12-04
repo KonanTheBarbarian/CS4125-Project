@@ -24,7 +24,7 @@
 {% block content %}
 <section class="reservation-form">
     <h2>Make a Reservation</h2>
-    <form action="#" method="post" id="reservation_form" data-model-url="{% url 'load_car_models' %}">
+    <form action="#" method="post" id="reservation_form" data-model-url="{% url 'crs:load_car_models' %}">
         {% csrf_token %}
         <label for="id_name">Legal Name:</label>
         {{ form.name }}

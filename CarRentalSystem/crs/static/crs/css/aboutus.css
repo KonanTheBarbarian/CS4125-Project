@@ -1,0 +1,16 @@
+/* aboutus.css */
+h1, h2 {
+    margin-bottom: 20px; /* Add more space below headings */
+}
+
+p {
+    margin-bottom: 15px; /* Add more space below paragraphs */
+    line-height: 1.6; /* This increases the space between lines of text */
+}
+
+/* You can also add more space around the main content block */
+.content-container {
+    padding: 20px;
+}
+
+/* If the 'content-container' class is not already present, add it to your HTML like so: */

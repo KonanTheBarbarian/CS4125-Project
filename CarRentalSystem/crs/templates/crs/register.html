@@ -1,18 +1,33 @@
+{% extends 'base.html' %}
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Register</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}Register{% endblock %}
     {% load static %}
+ 
+    {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'crs/css/register.css' %}">
+    {% endblock %}
 </head>
+
+{% block content %}
 <body>
+    <header>
+        <h1>Create Your Account</h1>
+    </header>
     <div class="register-container">
-    <h1>Register</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Register">
-    </form>
+        <h2>Register</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Register">
+        </form>
     </div>
 </body>
 </html>
+
+
+{% endblock content %}

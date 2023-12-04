@@ -1,32 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
     {% load static %}
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel = "stylesheet" type="text/css" href="{% static 'crs/css/home.css' %}">
-        <title>{% block title %}{% endblock title %} | Car Rental System</title>
-        {% block extra_css %}{% endblock extra_css %}
-    </head>
-    <body>
-        <header>
-            <h1>Welcome to Car Rental System</h1>
-        </header>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'crs/css/base.css' %}">
+    <title>{% block title %}{% endblock %} | Car Rental System</title>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <div class="navBar">
         <nav>
             <ul>
-                <li><a href="{% url 'dashboard' %}">Home</a></li>
+                <li><a href="{% url 'crs:dashboard' %}">Home</a></li>
                 <li><a href="#">Cars</a></li>
-                <li><a href="{% url 'reservations' %}">Reservations</a></li>
-                <li><a href="#">About Us</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="{% url 'crs:reservations' %}">Reservations</a></li>
+                
+                {% if user.is_authenticated and user.accountType == 'staff' %}
+                <li><a href="{% url 'crs:inventory' %}">Inventory</a></li>
+            {% endif %}
+
+                <li><a href="{% url 'crs:aboutus' %}">About Us</a></li>
+                
             </ul>
         </nav>
-        {% block content %}
-        {% endblock content %}
-        <footer>
-            <p>&copy; 2023 Car Rental System</p>
-        </footer>
-        {% block script %}
-        {% endblock script %}
-    </body>
+    
+        <div class="user-info">
+
+            {% if user.is_authenticated %}
+                <!-- Display user's name if logged in -->
+                <img src="{% static '' %}" alt="" class="user-icon">
+                <p>Welcome, {{ user.email }}!</p>
+
+                <form method="post" action="{% url 'crs:logoutUser' %}" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="btn">Logout</button>
+                </form>
+                
+            {% else %}
+                <!-- Display "Not logged in" message if not logged in    {{ user|pprint }} -->
+                <p>Not logged in</p>
+                <a href="{% url 'crs:login' %}" class="btn">Login</a>
+            {% endif %}
+        </div>
+    </div>
+
+
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Car Rental System</p>
+    </footer>
+</body>
 </html>
