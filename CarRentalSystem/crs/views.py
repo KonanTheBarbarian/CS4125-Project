@@ -68,7 +68,6 @@ def register(request):
             password = form.cleaned_data['password']
             date_of_birth = form.cleaned_data['date_of_birth']
 
-            # Use make_password to hash the password
             hashed_password = make_password(password)
 
             # Create a new user instance with the hashed password
@@ -77,10 +76,10 @@ def register(request):
                 defaults={
                     'password': hashed_password,
                     'date_of_birth': date_of_birth,
-                    'accountType': 'customer',  # or whatever default value you want
+                    'accountType': 'customer', 
                 }
             )
-
+            #Might need to remove
             if not created:
                 # If the user already exists, update the fields except for the password
                 user.date_of_birth = date_of_birth
@@ -89,7 +88,7 @@ def register(request):
 
             # Log in the user after successful registration
             login(request, user)
-            return redirect('crs:dashboard')  # Redirect to your dashboard or desired page
+            return redirect('crs:dashboard')  # Redirect to  dashboard
 
     else:
         form = RegistrationForm()
@@ -104,6 +103,14 @@ def logoutUser(request):
     logout(request)
    
     return redirect('crs:dashboard')
+
+def aboutus(request):
+    # Your view logic here
+    return render(request, 'crs/aboutus.html')
+
+def reservationsuccess(request):
+    # Your view logic here
+    return render(request, 'crs/reservationsuccess.html')
 
 
 #@login_required
@@ -128,7 +135,7 @@ class ReservationView(View):
         form = self.form_class(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('crs:dashboard')
+            return redirect('crs:reservationsuccess')
         context = {
             'form': form,
         }
@@ -178,7 +185,8 @@ def add_vehicle(request):
         director = VehicleDirector(builder)
 
         # Construct the vehicle using the director
-        director.construct(model_name, year, price, available_from_date, available_to_date, location)
+        director.construct(model_name, year, price, available_from_date, 
+                           available_to_date, location)
         vehicle_dict = builder.get_result()
 
         # Save the vehicle to the database

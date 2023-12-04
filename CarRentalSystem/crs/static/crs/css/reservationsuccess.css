@@ -1,0 +1,25 @@
+.reservation-success {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.reservation-success h1 {
+    color: green;
+    /* More styling here */
+}
+
+/* Style for the "Go Back to Homepage" link */
+.reservation-success a {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+    text-decoration: none;
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 20px;
+}
+
+/* Hover effect for the link */
+.reservation-success a:hover {
+    background-color: #0056b3;
+}

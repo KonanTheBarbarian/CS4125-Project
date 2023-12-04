@@ -16,9 +16,10 @@
                 <li><a href="{% url 'crs:dashboard' %}">Home</a></li>
                 <li><a href="#">Cars</a></li>
                 <li><a href="{% url 'crs:reservations' %}">Reservations</a></li>
-                <li><a href="#">About Us</a></li>
-                <li><a href="#">Contact</a></li>
+                {% if user.is_authenticated and user.accountType == 'staff' %}
                 <li><a href="{% url 'crs:inventory' %}">Inventory</a></li>
+                {% endif %}
+                <li><a href="{% url 'crs:aboutus' %}">About Us</a></li>
             </ul>
         </nav>
     

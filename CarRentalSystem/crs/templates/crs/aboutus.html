@@ -1,0 +1,26 @@
+<!-- home.html -->
+{% extends 'base.html' %}
+
+{% block title %}Car Rental System{% endblock title %}
+
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'crs/css/aboutus.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="content-container">
+    <h1>About Us</h1>
+    <p>Welcome to our car rental company, where we're driving into the future of car rentals. Catering to the modern nomad, our fleet is curated to empower your journey—be it a cityscape cruise or a rugged trail expedition. Our digital-first approach brings you a seamless booking experience, designed for your lifestyle.</p>
+    
+    <h2>Our Evolution</h2>
+    <p>From our inception in 2023 as a trusted partner for seasoned travelers and corporate clientele, we've evolved. We're not just a car rental company; we're pioneers in the mobility revolution, committed to connecting you to your passions with a vehicle for every adventure.</p>
+    
+    <h2>Our Mission</h2>
+    <p>Our mission is to reimagine car rental for the conscious explorer. With a user-friendly interface, transparent pricing, and a diverse, eco-forward fleet, we're bridging the gap for a new generation. We're more than a service; we're your ally in crafting a sustainable, thrilling future.</p>
+    
+    <h2>Contact Us</h2>
+    <p>Embark on your next adventure with us. For inquiries or to share your journey, reach out at:</p>
+    <p>Email: <a href="mailto:CS4125CarRental@gmail.com">CS4125CarRental@gmail.com</a></p>
+</div>
+{% endblock content %}

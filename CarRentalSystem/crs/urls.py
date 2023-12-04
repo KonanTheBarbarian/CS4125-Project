@@ -13,5 +13,7 @@ urlpatterns = [
     path('load-car-models/', views.load_car_model, name='load_car_models'),
     path('inventory/', views.add_vehicle, name='inventory'),
     path('synchronize-db/', SynchronizeDBView.as_view(), name='synchronize_db'),
-     path('logoutUser/', views.logoutUser, name='logoutUser'),
+    path('logoutUser/', views.logoutUser, name='logoutUser'),
+    path('aboutus/', views.aboutus, name='aboutus'),
+    path('reservationsuccess/', views.reservationsuccess, name='reservationsuccess'),
 ]

@@ -4,7 +4,8 @@ class VehicleDirector:
     def __init__(self, builder: VehicleBuilder):
         self.builder = builder
 
-    def construct(self, model_name, year, price, available_from_date, available_to_date, location):
+    def construct(self, model_name, year, price, 
+                  available_from_date, available_to_date, location):
         return (
             self.builder
             .build_model_name(model_name)

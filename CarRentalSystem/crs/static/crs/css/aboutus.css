@@ -1,0 +1,13 @@
+/* aboutus.css */
+h1, h2 {
+    margin-bottom: 20px; 
+}
+
+p {
+    margin-bottom: 15px; 
+    line-height: 1.6;
+}
+
+.content-container {
+    padding: 20px;
+}
